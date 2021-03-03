@@ -1,30 +1,44 @@
-package guru.springFramework.spring5webapp.domain;
+package guru.springframework.spring5webapp.domain;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Created by jt on 12/22/19.
+ */
 @Entity
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private  Long id;
+    private Long id;
 
     private String title;
-    private String isBn;
+    private String isbn;
+
+    @ManyToOne
+    private Publisher publisher;
 
     @ManyToMany
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Set<Author> authors = new HashSet<>();
 
-    public Book(String title, String isBn) {
-        this.title = title;
-        this.isBn = isBn;
+    public Book() {
     }
 
-    public Book() {
+    public Book(String title, String isbn) {
+        this.title = title;
+        this.isbn = isbn;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 
     public Long getId() {
@@ -43,12 +57,12 @@ public class Book {
         this.title = title;
     }
 
-    public String getIsBn() {
-        return isBn;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setIsBn(String isBn) {
-        this.isBn = isBn;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public Set<Author> getAuthors() {
@@ -64,8 +78,7 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", isBn='" + isBn + '\'' +
-                ", authors=" + authors +
+                ", isbn='" + isbn + '\'' +
                 '}';
     }
 
